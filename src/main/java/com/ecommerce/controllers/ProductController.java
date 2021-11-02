@@ -63,7 +63,6 @@ public class ProductController {
         if (product == null)
             return ResponseEntity.notFound().build();
         ProductDto result = productMapper.entityToDto(product);
-        //return ResponseEntity.created(URI.create("localhost/"+product.getId())).build();
         return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
 
 
