@@ -64,15 +64,11 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         ProductDto result = productMapper.entityToDto(product);
         return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
-
-
     }
 
     @DeleteMapping
     public ResponseEntity deleteProduct(@PathParam("id") Long id) {
-
         productService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 }
