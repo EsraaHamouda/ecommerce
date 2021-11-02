@@ -16,7 +16,7 @@ public class ProductService {
     ProductRepository productRepository;
 
     public Product findById(Long id) {
-        return productRepository.findById(id).orElseGet(null);
+        return productRepository.findById(id).orElse(null);
     }
 
     public Page<Product> findAll(Pageable pageable) {

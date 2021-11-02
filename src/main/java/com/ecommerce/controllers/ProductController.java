@@ -32,7 +32,7 @@ public class ProductController {
     public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long id) {
         Product product = productService.findById(id);
         if (product == null)
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         ProductDto productDto = productMapper.entityToDto(product);
         return ResponseEntity.ok(productDto);
 
