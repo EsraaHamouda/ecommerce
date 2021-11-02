@@ -7,15 +7,15 @@ import com.ecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.JsonPath;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
-import java.net.URI;
 
+
+@RequestMapping("product")
 @Controller
 public class ProductController {
 
@@ -23,17 +23,17 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+
     @Autowired
-    private ProductMapper productMapper;
+    public ProductMapper productMapper;
+
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductDto> getProductById(@PathParam("id") Long id) {
+    public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long id) {
         Product product = productService.findById(id);
         if (product == null)
             return ResponseEntity.notFound().build();
-
         ProductDto productDto = productMapper.entityToDto(product);
-
         return ResponseEntity.ok(productDto);
 
     }
@@ -48,16 +48,17 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductDto>> getProducts(Pageable pageable) {
+    public ResponseEntity<Page<Product>> getProducts(Pageable pageable) {
         Page<Product> productPage = productService.findAll(pageable);
-        Page<ProductDto> productPageDto = productMapper.entityPageToDtoPage(productPage);
+      //  Page<ProductDto> productPageDto = productMapper.entityPageToDtoPage(productPage);
 
-        return ResponseEntity.ok(productPageDto);
+        return ResponseEntity.ok(productPage);
 
     }
 
     @PutMapping
-    public ResponseEntity<ProductDto> updateProduct(@PathParam("id") Long id, @RequestBody ProductDto productDto) {
+    public ResponseEntity<ProductDto> updateProduct(@PathParam("id") Long id,
+                                                    @RequestBody ProductDto productDto) {
         Product productToUpdate = productMapper.dtoToEntity(productDto);
         Product product = productService.update(id, productToUpdate);
         if (product == null)
@@ -67,7 +68,7 @@ public class ProductController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteProduct(@PathParam("id") Long id) {
+    public ResponseEntity deleteProduct(@PathVariable("id") Long id) {
         productService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

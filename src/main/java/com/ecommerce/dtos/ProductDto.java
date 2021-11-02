@@ -1,9 +1,13 @@
 package com.ecommerce.dtos;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
-public class ProductDto {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class  ProductDto {
     private Long id;
     private String name;
     private String description;
